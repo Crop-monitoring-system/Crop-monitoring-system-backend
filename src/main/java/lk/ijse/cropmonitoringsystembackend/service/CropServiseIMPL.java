@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 @Transactional
@@ -31,6 +33,12 @@ public class CropServiseIMPL implements CropServise {
         if(saveCrops == null ) {
             throw new DataPersistFailedException("Cannot data saved");
         }
+    }
+
+    @Override
+    public List<CropDto> getAllCrop() {
+        List<CropEntity> getAllCrops = cropDao.findAll();
+        return mapping.convertCropToDTOList(getAllCrops);
     }
 
 }
