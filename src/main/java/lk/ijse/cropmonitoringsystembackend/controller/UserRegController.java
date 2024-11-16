@@ -11,6 +11,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/UserReg")
 @RequiredArgsConstructor
@@ -39,5 +41,14 @@ public class UserRegController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
+//
+//    @GetMapping(value = "allUsers",produces = MediaType.APPLICATION_JSON_VALUE)
+//    public List<UserRegDto> getAllUsers() {
+//        return userRegService.getAllUsers();
+//    }
+
+
 
 }

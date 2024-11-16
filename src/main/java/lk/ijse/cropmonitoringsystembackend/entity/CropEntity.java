@@ -22,10 +22,13 @@ public class CropEntity implements SuperEntity{
 
     @Id
     private String cropCode;
+
     @Column(nullable = false)
     private String commonName;
-    @Column(nullable = false, unique = true)
+
+    @Column(unique = true)
     private String scientificName;
+
     @Column(nullable = false)
     private String category;
     @Column(nullable = false)
@@ -33,8 +36,9 @@ public class CropEntity implements SuperEntity{
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private AvailabilityStatus status;
+
     @Lob
-    @Column(nullable = false)
+//    @Column(nullable = false)
     private String cropImage;
 
     @ManyToOne
