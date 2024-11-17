@@ -4,6 +4,7 @@ package lk.ijse.cropmonitoringsystembackend.controller;
 import lk.ijse.cropmonitoringsystembackend.dto.CropDto;
 import lk.ijse.cropmonitoringsystembackend.dto.UserRegDto;
 import lk.ijse.cropmonitoringsystembackend.enums.AvailabilityStatus;
+import lk.ijse.cropmonitoringsystembackend.exception.CropNotFoundException;
 import lk.ijse.cropmonitoringsystembackend.exception.DataPersistFailedException;
 import lk.ijse.cropmonitoringsystembackend.exception.UserNotRegisteredException;
 import lk.ijse.cropmonitoringsystembackend.service.CropServise;
@@ -76,6 +77,19 @@ public class CropManageController {
         return cropServise.getAllCrop(); // Use the injected service instance
     }
 
+
+
+    @DeleteMapping("/{code}")
+    public ResponseEntity<Void> deleteCrop(@PathVariable ("code") String cropCode) {
+        try {
+            cropServise.deleteCrop(cropCode);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (CropNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 
 
