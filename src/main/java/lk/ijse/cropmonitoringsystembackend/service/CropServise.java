@@ -8,4 +8,7 @@ public interface CropServise {
     void saveCrops(CropDto cropDto);
     List<CropDto> getAllCrop();
     void deleteCrop(String cropCode);
+
+    void updateCrop(CropDto cropDto);
+
 }

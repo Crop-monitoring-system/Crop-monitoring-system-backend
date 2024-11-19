@@ -10,6 +10,7 @@ import lk.ijse.cropmonitoringsystembackend.exception.UserNotRegisteredException;
 import lk.ijse.cropmonitoringsystembackend.service.CropServise;
 import lk.ijse.cropmonitoringsystembackend.util.AppUtil;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -92,6 +93,44 @@ public class CropManageController {
     }
 
 
+//    value = "/{updateCode}",
+
+    @PatchMapping(value = "/{updateCode}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Void> updateCrop(
+            @PathVariable("updateCode") String updateCode,
+            @RequestPart("category") String category,
+            @RequestPart("common_name") String commonName,
+            @RequestPart("crop_image") MultipartFile cropImage,
+            @RequestPart("scientific_name") String scientificName,
+            @RequestPart("season") String season,
+            @RequestPart("status") String status,
+            @RequestPart("field") String field) {
+
+        try {
+            String toBase64CropPic = AppUtil.toBase64CropPic(cropImage);
+
+            var cropDto = new CropDto();
+            cropDto.setCode(updateCode);
+            cropDto.setCategory(category);
+            cropDto.setCommonName(commonName);
+            cropDto.setCropImage(toBase64CropPic);
+            cropDto.setScientificName(scientificName);
+            cropDto.setSeason(season);
+            cropDto.setStatus(status);
+            cropDto.setField(field);
+
+            cropServise.updateCrop(cropDto);
+            System.out.println("Endpoint hit with updateCode: " + updateCode);
+
+
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (CropNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 
 
