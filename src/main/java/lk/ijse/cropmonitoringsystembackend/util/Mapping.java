@@ -3,12 +3,16 @@ package lk.ijse.cropmonitoringsystembackend.util;
 
 
 import lk.ijse.cropmonitoringsystembackend.dto.CropDto;
+import lk.ijse.cropmonitoringsystembackend.dto.FieldDto;
 import lk.ijse.cropmonitoringsystembackend.dto.UserRegDto;
 import lk.ijse.cropmonitoringsystembackend.entity.CropEntity;
+import lk.ijse.cropmonitoringsystembackend.entity.FieldEntity;
 import lk.ijse.cropmonitoringsystembackend.entity.UserEntity;
+import lk.ijse.cropmonitoringsystembackend.enums.AvailabilityStatus;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.Point;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -22,19 +26,17 @@ public class Mapping {
 
 
     //User matters mapping
+
     public lk.ijse.cropmonitoringsystembackend.entity.UserEntity convertToUserEntity(UserRegDto userRegDto) {
         return modelMapper.map(userRegDto, UserEntity.class);
     }
-
-
-
 
     public List<UserRegDto> convertUserToDTOList(List<UserEntity> userEntities) {
         return modelMapper.map(userEntities, new TypeToken<List<UserRegDto>>() {}.getType());
     }
 
 
-
+//crop
     public CropEntity convertToCropEntity(CropDto cropDto) {
         return modelMapper.map(cropDto, CropEntity.class);
     }
@@ -47,6 +49,25 @@ public class Mapping {
     public List<CropDto> convertCropToDTOList(List<CropEntity> cropEntities) {
         return modelMapper.map(cropEntities, new TypeToken<List<CropDto>>() {}.getType());
     }
+
+
+//    field
+
+    public FieldEntity convertToFieldEntity(FieldDto fieldDto) {
+        return modelMapper.map(fieldDto, FieldEntity.class);
+    }
+
+    public FieldDto convertToFieldDTO(FieldEntity fieldEntity) {
+        return modelMapper.map(fieldEntity, FieldDto.class);
+    }
+
+
+    public List<FieldDto> convertFieldToDTOList(List<FieldEntity> fieldEntities) {
+        return modelMapper.map(fieldEntities, new TypeToken<List<FieldDto>>() {}.getType());
+    }
+
+
+
 
 
 }
