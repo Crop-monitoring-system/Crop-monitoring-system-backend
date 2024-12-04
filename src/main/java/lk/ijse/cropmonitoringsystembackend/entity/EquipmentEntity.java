@@ -27,7 +27,7 @@ public class EquipmentEntity implements SuperEntity{
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "assigned_staff_id", referencedColumnName = "id")
     private StaffEntity staff;
     @ManyToOne
@@ -35,3 +35,4 @@ public class EquipmentEntity implements SuperEntity{
     private FieldEntity field;
 
 }
+//(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

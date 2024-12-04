@@ -1,6 +1,5 @@
 package lk.ijse.cropmonitoringsystembackend.controller;
 
-import lk.ijse.cropmonitoringsystembackend.dto.CropDto;
 import lk.ijse.cropmonitoringsystembackend.dto.FieldDto;
 import lk.ijse.cropmonitoringsystembackend.enums.AvailabilityStatus;
 import lk.ijse.cropmonitoringsystembackend.exception.CropNotFoundException;
@@ -9,9 +8,8 @@ import lk.ijse.cropmonitoringsystembackend.exception.DataPersistFailedException;
 import lk.ijse.cropmonitoringsystembackend.service.FieldServise;
 import lk.ijse.cropmonitoringsystembackend.util.AppUtil;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.Point;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,12 +30,17 @@ public class FieldManegeController {
     private final FieldServise fieldServise;
 
 
+
+
+
+
+
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> saveField(
             @RequestPart("fcode") String fcode,
             @RequestPart("FieldImage1") MultipartFile FieldImage1,
             @RequestPart("FieldImage2") MultipartFile FieldImage2,
-            @RequestPart("location") String location,  // updated to camelCase
+            @RequestPart("fieldlocation") String fieldlocation,  // updated to camelCase
             @RequestPart("name") String name,  // updated to camelCase
             @RequestPart("size") String size,
             @RequestPart("status") String status) {
@@ -50,18 +53,24 @@ public class FieldManegeController {
 
             // Construct the FieldDto
 
+
+
+
+
+
             FieldDto fieldDto = new FieldDto();
             fieldDto.setFcode(fcode);
             fieldDto.setFieldImage1(toBase64FieldPic1);
             fieldDto.setFieldImage2(toBase64FieldPic2);
 
-            fieldDto.setLocation(location);  // updated to camelCase
+            fieldDto.setFieldlocation(fieldlocation);  // updated to camelCase
             fieldDto.setName(name);  // updated to camelCase
             fieldDto.setSize(size);
             fieldDto.setStatus(status);
 
             // Save crop using the service
             fieldServise.saveField(fieldDto);
+
 
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (DataPersistFailedException e) {
@@ -70,15 +79,8 @@ public class FieldManegeController {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
+
     }
-
-
-
-
-
-
-
-
 
 
 
@@ -115,7 +117,7 @@ public class FieldManegeController {
             @PathVariable("updateFCode") String updateFCode,
             @RequestPart("FieldImage1") MultipartFile FieldImage1,
             @RequestPart("FieldImage2") MultipartFile FieldImage2,
-            @RequestPart("location") String location,  // updated to camelCase
+            @RequestPart("fieldlocation") String fieldlocation,  // updated to camelCase
             @RequestPart("name") String name,  // updated to camelCase
             @RequestPart("size") String size,
             @RequestPart("status") String status) {
@@ -129,7 +131,7 @@ public class FieldManegeController {
             fieldDto.setFieldImage1(toBase64FieldPic1);
             fieldDto.setFieldImage2(toBase64FieldPic2);
 
-            fieldDto.setLocation(location);  // updated to camelCase
+            fieldDto.setFieldlocation(fieldlocation);  // updated to camelCase
             fieldDto.setName(name);  // updated to camelCase
             fieldDto.setSize(size);
             fieldDto.setStatus(status);

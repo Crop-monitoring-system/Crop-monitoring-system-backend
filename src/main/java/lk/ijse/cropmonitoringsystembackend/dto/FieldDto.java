@@ -5,7 +5,9 @@ import lk.ijse.cropmonitoringsystembackend.customObj.FieldResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.geo.Point;
 
+import java.awt.*;
 import java.io.Serializable;
 
 @AllArgsConstructor
@@ -16,7 +18,7 @@ public class FieldDto implements Serializable, FieldResponse {
     private String fcode;
     private String fieldImage1;
     private String fieldImage2;
-    private String location;
+    private String fieldlocation;
     private String name;
     private String size;
     private String status;
