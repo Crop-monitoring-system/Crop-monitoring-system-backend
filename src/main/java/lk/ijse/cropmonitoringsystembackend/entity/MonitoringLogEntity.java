@@ -22,12 +22,17 @@ public class MonitoringLogEntity implements SuperEntity{
     private String logCode;
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date logDate;
+    private String logDate;
     @Column(nullable = false)
     private String observation;
-    @Column(nullable = false)
+
+
+//    @Column(nullable = false)
+
     @Lob
+    @Column(columnDefinition = "LONGTEXT", nullable = false)
     private String observedImage;
+
     @ManyToMany
     @JoinTable(
             name = "log_field",

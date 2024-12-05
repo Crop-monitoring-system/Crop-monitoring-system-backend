@@ -21,6 +21,7 @@ public class FieldDto implements Serializable, FieldResponse {
     private String fieldlocation;
     private String name;
     private String size;
+    private String staff;
     private String status;
 
 //    private String fieldId;

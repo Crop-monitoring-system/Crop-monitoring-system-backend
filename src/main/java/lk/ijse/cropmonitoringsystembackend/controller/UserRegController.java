@@ -2,6 +2,8 @@ package lk.ijse.cropmonitoringsystembackend.controller;
 
 
 import lk.ijse.cropmonitoringsystembackend.dto.UserRegDto;
+import lk.ijse.cropmonitoringsystembackend.dto.VehicleDto;
+import lk.ijse.cropmonitoringsystembackend.exception.DataPersistFailedException;
 import lk.ijse.cropmonitoringsystembackend.exception.UserNotRegisteredException;
 import lk.ijse.cropmonitoringsystembackend.service.UserRegService;
 import lombok.RequiredArgsConstructor;
@@ -23,24 +25,24 @@ public class UserRegController {
     private final UserRegService userRegService;
 
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createUser(@RequestBody UserRegDto userRegDto) {
-        if (userRegDto == null) {
-
-            System.out.println("userRegDto is null");
-
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        try {
-            userRegService.saveUser(userRegDto);
-
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } catch (UserNotRegisteredException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+//    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<Void> createUser(@RequestBody UserRegDto userRegDto) {
+//        if (userRegDto == null) {
+//
+//            System.out.println("userRegDto is null");
+//
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+//        try {
+//            userRegService.saveUser(userRegDto);
+//
+//            return new ResponseEntity<>(HttpStatus.CREATED);
+//        } catch (UserNotRegisteredException e) {
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 
 
 //
@@ -48,6 +50,56 @@ public class UserRegController {
 //    public List<UserRegDto> getAllUsers() {
 //        return userRegService.getAllUsers();
 //    }
+
+
+
+
+
+
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Void> saveEquipment(
+            @RequestPart("email") String email,
+            @RequestPart("password") String password,
+            @RequestPart("role") String role) {
+
+        try {
+
+            UserRegDto userRegDto = new UserRegDto();
+            userRegDto.setEmail(email);
+            userRegDto.setPassword(password);
+            userRegDto.setRole(role);
+
+            // Save crop using the service
+            userRegService.saveUser(userRegDto);
+
+
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (DataPersistFailedException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+
+
+
+
+    @GetMapping(value = "allUsers", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<UserRegDto> getAllUsers() {
+        return userRegService.getAllUsers(); // Use the injected service instance
+    }
+
+
+
+
+
+
+
+
+
 
 
 

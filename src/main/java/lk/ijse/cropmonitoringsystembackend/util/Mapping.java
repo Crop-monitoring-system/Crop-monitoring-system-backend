@@ -189,12 +189,91 @@ public class Mapping {
 //    }
 //
 //
-//    public List<StaffDto> convertStaffToDTOList(List<StaffEntity> staffEntities) {
-//        return modelMapper.map(staffEntities, new TypeToken<List<StaffDto>>() {}.getType());
+
+
+
+//    public List<VehicleDto> convertVehicalToDTOList(List<VehicleEntity> vehicleEntities) {
+//        return modelMapper.map(vehicleEntities, new TypeToken<List<VehicleDto>>() {}.getType());
 //    }
 
 
 
+
+    public List<VehicleDto> convertVehicalToDTOList(List<VehicleEntity> vehicleEntities) {
+        List<VehicleDto> vehicleDtos = new ArrayList<>();
+
+        for (VehicleEntity vehicleEntity : vehicleEntities) {
+            VehicleDto vehicleDto = new VehicleDto();
+
+            // Map basic fields
+
+            vehicleDto.setLicensePlateNo(vehicleEntity.getLicensePlateNo());
+
+            // Convert Enums to String (if applicable)
+            vehicleDto.setStatus(vehicleEntity.getStatus() != null ? vehicleEntity.getStatus().name() : null);
+            vehicleDto.setFuelType(vehicleEntity.getFuelType() != null ? vehicleEntity.getFuelType().toString() : null);
+
+            vehicleDto.setRemark(vehicleEntity.getRemark() != null ? vehicleEntity.getRemark().toString() : null);
+            vehicleDto.setCategory(vehicleEntity.getCategory() != null ? vehicleEntity.getCategory().toString() : null);
+
+            // Map related entities (Field and Staff) to IDs
+            vehicleDto.setAssignedStaffId(vehicleEntity.getStaff() != null ? vehicleEntity.getStaff().getId() : null);
+
+
+            // Set vehicle ID
+            vehicleDto.setVCode(vehicleEntity.getVehicleCode());
+
+            vehicleDtos.add(vehicleDto);
+        }
+
+        return vehicleDtos;
+    }
+
+
+
+
+    // mLogs
+
+    public MonitoringLogEntity convertToMlogEntity(MonitoringLogDto monitoringLogDto) {
+        return modelMapper.map(monitoringLogDto, MonitoringLogEntity.class);
+    }
+
+//    public StaffDto convertToStaffDTO(StaffEntity staffEntity) {
+//        return modelMapper.map(staffEntity, StaffDto.class);
+//    }
+
+
+//    public List<MonitoringLogDto> convertMlogToDTOList(List<MonitoringLogEntity> monitoringLogEntities) {
+//        return modelMapper.map(monitoringLogEntities, new TypeToken<List<MonitoringLogDto>>() {}.getType());
+//    }
+
+
+    public List<MonitoringLogDto> convertMlogToDTOList(List<MonitoringLogEntity> monitoringLogEntities) {
+        List<MonitoringLogDto> monitoringLogDtos = new ArrayList<>();
+
+        for (MonitoringLogEntity monitoringLogEntity : monitoringLogEntities) {
+            MonitoringLogDto monitoringLogDto = new MonitoringLogDto();
+
+            // Map basic fields
+            monitoringLogDto.setMCode(monitoringLogEntity.getLogCode());
+            monitoringLogDto.setMDate(monitoringLogEntity.getLogDate());
+            monitoringLogDto.setObservation(monitoringLogEntity.getObservation());
+
+            // Map the observed image (if applicable, e.g., Base64 or URL)
+            monitoringLogDto.setObservedImage(monitoringLogEntity.getObservedImage());
+
+            // If you have enums, convert them to String (e.g., status, type)
+            if (monitoringLogEntity.getObservation() != null) {
+                monitoringLogDto.setObservation(monitoringLogEntity.getObservation().toString());
+            }
+
+
+
+            monitoringLogDtos.add(monitoringLogDto);
+        }
+
+        return monitoringLogDtos;
+    }
 
 
 

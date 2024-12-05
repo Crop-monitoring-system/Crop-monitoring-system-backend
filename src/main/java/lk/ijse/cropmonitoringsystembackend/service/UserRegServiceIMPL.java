@@ -3,11 +3,15 @@ package lk.ijse.cropmonitoringsystembackend.service;
 import jakarta.transaction.Transactional;
 import lk.ijse.cropmonitoringsystembackend.dao.UserRegDao;
 import lk.ijse.cropmonitoringsystembackend.dto.UserRegDto;
+import lk.ijse.cropmonitoringsystembackend.entity.CropEntity;
 import lk.ijse.cropmonitoringsystembackend.entity.UserEntity;
+import lk.ijse.cropmonitoringsystembackend.entity.VehicleEntity;
+import lk.ijse.cropmonitoringsystembackend.exception.DataPersistFailedException;
 import lk.ijse.cropmonitoringsystembackend.exception.UserNotFoundException;
 import lk.ijse.cropmonitoringsystembackend.util.Mapping;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,24 +29,36 @@ public class UserRegServiceIMPL implements UserRegService {
 
     @Override
     public void saveUser(UserRegDto userRegDto) {
-        var userRegEntity = mapping.convertToUserEntity(userRegDto);
-        var savedUser = userRegDao.save(userRegEntity);
-        if (savedUser == null) {
-            throw new UserNotFoundException("Cannot save user");
+
+//        var userRegEntity = mapping.convertToUserEntity(userRegDto);
+//        var savedUser = userRegDao.save(userRegEntity);
+//        if (savedUser == null) {
+//            throw new UserNotFoundException("Cannot save user");
+//        }
+
+        System.out.println("Received Payload: " + userRegDto);
+        UserEntity saveUser = userRegDao.save(mapping.convertToUserEntity(userRegDto));
+        if(saveUser == null ) {
+            throw new DataPersistFailedException("Cannot data saved");
         }
+
     }
 
 
 
     @Override
     public List<UserRegDto> getAllUsers() {
-        List<UserEntity> getAllUsers = userRegDao.findAll();
-        long userCount = getAllUsers.size(); // Calculate the count from the fetched list
-        System.out.println("Total number of users: " + userCount); // Print the count
-        return mapping.convertUserToDTOList(getAllUsers); // Convert and return the user list
+        List<UserEntity> getAllUsers = userRegDao.findAll(); // Fetch all fields
+        return mapping.convertUserToDTOList(getAllUsers);
     }
 
-
+//    @Override
+//    public UserDetailsService userDetailsService() {
+//        return email ->
+//                userRegDao.findByEmail(email)
+//                        .orElseThrow(()-> new UserNotFoundException("User Not found"));
+//                };
+//    }
 
 
 //

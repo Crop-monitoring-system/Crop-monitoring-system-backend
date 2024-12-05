@@ -49,6 +49,21 @@ public class AppUtil {
 
 
 
+    public static String toBase64FieldPic3(MultipartFile mLogImage){
+        String proPicBase64 = null;
+        try {
+            byte [] proPicBytes = mLogImage.getBytes();
+            proPicBase64 =  Base64.getEncoder().encodeToString(proPicBytes);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return proPicBase64;
+    }
+
+
+
+
+
 
 
 
