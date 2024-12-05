@@ -12,8 +12,13 @@ import lk.ijse.cropmonitoringsystembackend.util.Mapping;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -27,6 +32,11 @@ public class UserRegServiceIMPL implements UserRegService {
     @Autowired
     private final Mapping mapping;
 
+
+
+    @Autowired
+    private final PasswordEncoder passwordEncoder;
+
     @Override
     public void saveUser(UserRegDto userRegDto) {
 
@@ -35,6 +45,9 @@ public class UserRegServiceIMPL implements UserRegService {
 //        if (savedUser == null) {
 //            throw new UserNotFoundException("Cannot save user");
 //        }
+
+        String encodedPassword = passwordEncoder.encode(userRegDto.getPassword());
+        userRegDto.setPassword(encodedPassword);
 
         System.out.println("Received Payload: " + userRegDto);
         UserEntity saveUser = userRegDao.save(mapping.convertToUserEntity(userRegDto));
@@ -52,13 +65,9 @@ public class UserRegServiceIMPL implements UserRegService {
         return mapping.convertUserToDTOList(getAllUsers);
     }
 
-//    @Override
-//    public UserDetailsService userDetailsService() {
-//        return email ->
-//                userRegDao.findByEmail(email)
-//                        .orElseThrow(()-> new UserNotFoundException("User Not found"));
-//                };
-//    }
+
+
+
 
 
 //
@@ -70,6 +79,14 @@ public class UserRegServiceIMPL implements UserRegService {
 //        }
 //        return false; // Login failure
 //    }
+
+
+
+
+
+
+
+
 
 
 

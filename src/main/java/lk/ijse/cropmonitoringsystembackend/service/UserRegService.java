@@ -2,6 +2,7 @@ package lk.ijse.cropmonitoringsystembackend.service;
 
 import lk.ijse.cropmonitoringsystembackend.dto.UserRegDto;
 import lk.ijse.cropmonitoringsystembackend.entity.UserEntity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 //import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public interface UserRegService {
     List<UserRegDto> getAllUsers();
 //    boolean validateUser(String email, String password);
 
-//    UserDetailsService userDetailsService();
+
 
 
 

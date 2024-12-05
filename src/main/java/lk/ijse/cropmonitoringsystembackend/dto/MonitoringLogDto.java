@@ -17,4 +17,8 @@ public class MonitoringLogDto implements Serializable , MonitoringLogResponse {
     private String mDate;
     private String observation;
     private String observedImage;
+
+    private String field;
+    private String staff;
+    private String crop;
 }

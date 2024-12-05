@@ -4,6 +4,7 @@ package lk.ijse.cropmonitoringsystembackend.service;
 import jakarta.transaction.Transactional;
 import lk.ijse.cropmonitoringsystembackend.dao.FieldStaffDao;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class Field_staffServiseIMPL implements Field_staffServise {
 
+    @Autowired
     private final FieldStaffDao fieldStaffDao;
 
     @Override
